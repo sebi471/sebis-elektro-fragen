@@ -1,0 +1,6 @@
+
+const app=document.getElementById('app');const statsDiv=document.getElementById('stats');let correct=0,wrong=0,open=0;
+function updateStats(){statsDiv.textContent=`✅ ${correct} ❌ ${wrong} 📋 ${open}`;}
+function buildTopics(){app.innerHTML='';correct=wrong=0;open=0;updateStats();Object.keys(questions).forEach(t=>{const card=document.createElement('div');card.className='topic-card';card.innerHTML=`<img src="img/${t.toLowerCase()}.png"><p>${t}</p>`;card.onclick=()=>startQuiz(t);app.appendChild(card);});}
+function startQuiz(topic){const list=[...questions[topic]];let idx=0;correct=wrong=0;open=list.length;updateStats();show();function show(){if(idx>=list.length){app.innerHTML=`<h2>Fertig!</h2><p>✅ ${correct} ❌ ${wrong}</p><button onclick="buildTopics()">Zurück</button>`;return;}const q=list[idx];app.innerHTML=`<h2>${idx+1}/${list.length}: ${q.q}</h2>`;q.options.forEach((opt,i)=>{const btn=document.createElement('div');btn.className='option';btn.textContent=opt;btn.onclick=()=>{if(btn.classList.contains('done'))return;btn.classList.add('done');if(i===q.correct){btn.classList.add('correct');correct++;}else{btn.classList.add('wrong');wrong++;}open--;updateStats();setTimeout(()=>{idx++;show();},800);};app.appendChild(btn);});}}
+document.addEventListener('DOMContentLoaded',buildTopics);
