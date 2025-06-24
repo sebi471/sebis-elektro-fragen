@@ -1,1 +1,0 @@
-const questions = [/* Beispiel-Fragen */];
